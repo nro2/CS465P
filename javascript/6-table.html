@@ -18,11 +18,11 @@
             // create a html table that represents the csv given in strInput set the content of the output div to this html table
             // you can either create a string that represents the html and use innerHTML to set it or you can use createElement / appendChild
             // should this function be called multiple times, the output div should only contain the table of the most recent call
-            var html = "<table border=1><tr>";
+            var html = "<table border=1>";
 
 			if( array.length > 1) {
                 array.forEach(function(item){
-					if (item) {
+					if (item != "" ){
 						html += "<tr>";
                         console.log("I AM IN THE IF STATEMENT")
 						var newStr = item.split(",");

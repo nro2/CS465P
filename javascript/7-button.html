@@ -14,10 +14,9 @@
 		
 		<script type="text/javascript">
 			document.getElementById('copy').onclick = function(){
-				//document.getElementById('input');
-				var itm = document.getElementById('input').value;
 				
-				document.getElementById('output').value = itm;
+				var itm = document.getElementById('input').value;
+				document.getElementById('output').innerHTML = itm;
 			};
 			// attach an onclick listener to document.getElementById('copy') that copies the content from document.getElementById('input') to document.getElementById('output')
 		</script>
