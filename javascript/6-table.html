@@ -1,67 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+ 
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+ 
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0" />
+</head>
+ 
+<body>
+    <div id="output">output</div>
+ 
+    <script type="text/javascript">
+        var functionCreate = function (strInput) {
+ 
+            var array = strInput.split("\n");
+ 
+            // create a html table that represents the csv given in strInput set the content of the output div to this html table
+            // you can either create a string that represents the html and use innerHTML to set it or you can use createElement / appendChild
+            // should this function be called multiple times, the output div should only contain the table of the most recent call
+            var html = "<table border=1><tr>";
 
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0" />
-	</head>
-	<body>
-		<div id="output">output</div>
-
-		<script type="text/javascript">
-			var functionCreate = function(strInput) {
-				// create a html table that represents the csv given in strInput set the content of the output div to this html table
-				// you can either create a string that represents the html and use innerHTML to set it or you can use createElement / appendChild
-				// should this function be called multiple times, the output div should only contain the table of the most recent call
-
-				document.getElementById('output').innerHTML = '';
-			};
-
-			functionCreate('a,b,c\n1,2,3\n'); // the new line at the end should not make a difference
-			
-			// expected table for functionCreate('a,b\n'):
-			//   <table border="1">
-			//     <tr>
-			//       <td>a</td>
-			//       <td>b</td>
-			//     </tr>
-			//   </table>
-			
-			// expected table for functionCreate('a,b'):
-			//   <table border="1">
-			//     <tr>
-			//       <td>a</td>
-			//       <td>b</td>
-			//     </tr>
-			//   </table>
-			
-			// expected table for functionCreate('a,b,c\n1,2,3\n'):
-			//   <table border="1">
-			//     <tr>
-			//       <td>a</td>
-			//       <td>b</td>
-			//       <td>c</td>
-			//     </tr>
-			//     <tr>
-			//       <td>1</td>
-			//       <td>2</td>
-			//       <td>3</td>
-			//     </tr>
-			//   </table>
-			
-			// expected table for functionCreate('a,b,c\n1,2,3'):
-			//   <table border="1">
-			//     <tr>
-			//       <td>a</td>
-			//       <td>b</td>
-			//       <td>c</td>
-			//     </tr>
-			//     <tr>
-			//       <td>1</td>
-			//       <td>2</td>
-			//       <td>3</td>
-			//     </tr>
-			//   </table>
-		</script>
-	</body>
+			if( array.length > 1) {
+                array.forEach(function(item){
+					if (item) {
+						html += "<tr>";
+                        console.log("I AM IN THE IF STATEMENT")
+						var newStr = item.split(",");
+						newStr.forEach(function(singleStr) {
+							html += "<td>" + singleStr + "</td>"
+						});
+						html += "</tr>";
+					}
+				});
+			}
+			else {
+				html += "<tr>";
+				var newStr = strInput.split(",");
+				newStr.forEach(function(singleStr) {
+					html += "<td>" + singleStr + "</td>"
+				});
+				html += "</tr>";
+			}
+			 
+            html += "</table>"
+            document.getElementById('output').innerHTML = html;
+ 
+        };
+ 
+        //functionCreate('a,b,c\n1,2,3\n'); // the new line at the end should not make a difference
+        functionCreate("1.1\n2.1\n3.1\n4.1\n");
+            // expected table for functionCreate('a,b\n'):
+            //   <table border="1">
+            //     <tr>
+            //       <td>a</td>
+            //       <td>b</td>
+            //     </tr>
+            //   </table>
+ 
+            // expected table for functionCreate('a,b'):
+            //   <table border="1">
+            //     <tr>
+            //       <td>a</td>
+            //       <td>b</td>
+            //     </tr>
+            //   </table>
+ 
+            // expected table for functionCreate('a,b,c\n1,2,3\n'):
+            //   <table border="1">
+            //     <tr>
+            //       <td>a</td>
+            //       <td>b</td>
+            //       <td>c</td>
+            //     </tr>
+            //     <tr>
+            //       <td>1</td>
+            //       <td>2</td>
+            //       <td>3</td>
+            //     </tr>
+            //   </table>
+ 
+            // expected table for functionCreate('a,b,c\n1,2,3'):
+            //   <table border="1">
+            //     <tr>
+            //       <td>a</td>
+            //       <td>b</td>
+            //       <td>c</td>
+            //     </tr>
+            //     <tr>
+            //       <td>1</td>
+            //       <td>2</td>
+            //       <td>3</td>
+            //     </tr>
+            //   </table>
+    </script>
+</body>
+ 
 </html>
