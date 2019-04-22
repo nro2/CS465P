@@ -9,16 +9,26 @@
 	</head>
 	<body>
 		<div id="output"></div>
+		
 
 		<script type="text/javascript">
 			var functionCreate = function(intWidth, intHeight) {
+				var height = $(intHeight);
+				var width = $(intWidth);
+				var $table = $('<table></table>').attr('border', '1');
+				$.each(height, function(colIndex, r) {
+					var $row = $('<tr></tr>');
+					$.each(width, function(rowIndex, c) {
+						$row.append($('<td></td>').text(c + "." + r));
+					});
+					$table.append($row);
+				});
+								
 				// create a table with the width and height and in doing so, set the text to each cell / td element to 'y.x' (see example below)
 				// remember that you were already asked to create a table in the javascript section, but here you are asked to return a jquery object that represents a table
 				// to do this, you will have create jquery elements that represent the tr / td elements and append them systematically to a jquery table element
-
-				return jQuery('<table></table>');
-				.foreach()
-					append();
+				return $table;
+				
 			};
 
 			jQuery('#output')
