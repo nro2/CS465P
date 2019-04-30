@@ -4,11 +4,36 @@ var http = require('http'); // do not change this line
 var url = require('url'); // do not change this line
 var querystring = require('querystring'); // do not change this line
 
-// http://localhost:8080/ should return 'you have accessed the root' in plain text
+const server = http.createServer(function(req, res) {
 
-// http://localhost:8080/test/hello should return 'you have accessed "hello" within test' in plain text
+    // http://localhost:8080/ should return 'you have accessed the root' in plain text
+    if (req.url === '/') {
+        res.writeHead(200, {
+            'Content-Type': 'text/plain'
+        });    
+        res.end('you have accessed the root');
+    }
+    // http://localhost:8080/test/hello should return 'you have accessed "hello" within test' in plain text
+    // http://localhost:8080/test/world should return 'you have accessed "world" within test' in plain text
+    else if (req.url.indexOf('/test/') === 0) {
+        res.writeHead(200, {
+            'Content-Type': 'text/plain'
+        });    
+        res.end('you have accessed \"' + decodeURIComponent(req.url.substr(6)) + '\" within test');
+    }
+    
+    else if (req.url.indexOf('/attributes?') === 0) {
+        var str = decodeURIComponent(req.url.substr(12))
+        var parsedString = querystring.parse(str);
+        res.writeHead(200, {
+                    'Content-Type': 'text/html'
+        })
+        console.log(parsedString)
+    res.end()
+    }
+});
 
-// http://localhost:8080/test/world should return 'you have accessed "world" within test' in plain text
+server.listen(process.env.PORT || 8080)
 
 // http://localhost:8080/attributes?hello=world&lorem=ipsum should return the following as html (row order might differ)
 //   <!DOCTYPE html>
