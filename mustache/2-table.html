@@ -67,5 +67,22 @@
 					</tr>
 				</table>
 		-->
+		<table border="1">
+			<tr>
+				<th>name</th>
+				<th>gender</th>
+				
+				<script type='text/javascript'>
+					var tr = $('<tr></tr>');
+					{{ #objectUsers }}
+					if ( {{boolVisible}} === true) {
+						tr.append('<td>' + {{ strFirst }} + " " {{ strLast }} '</td>')
+						$('table').append(tr)
+					}
+					
+					{{ /objectUsers }}
+				</script>
+				
+		</table>
 	</body>
 </html>
