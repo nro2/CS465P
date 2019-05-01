@@ -28,7 +28,19 @@ const server = http.createServer(function(req, res) {
         res.writeHead(200, {
                     'Content-Type': 'text/html'
         })
-        console.log(parsedString)
+        res.write('<!DOCTYPE html>')
+        res.write('<html>')
+        res.write('<body')
+        res.write('<table border="1">')
+
+
+
+
+        res.write('</body>')
+        res.write('</table>')
+        res.write('</body>')
+        res.write('</html>')
+        
     res.end()
     }
 });

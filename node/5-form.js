@@ -3,6 +3,28 @@
 var http = require('http'); // do not change this line
 var querystring = require('querystring'); // do not change this line
 
+const server = http.createServer(function(req, res) {
+
+    if (req.url === '/form') {
+        res.writeHead(200, {
+          	'Content-Type': 'text/html'
+        });
+        res.write('<!DOCTYPE html>');
+            res.write('<html>');
+                res.write('<body>');
+                    res.write('<form action="/new" method="post">');
+                        res.write('<input type="text" name="name">');
+                        res.write('<input type="text" name="message">');
+                        res.write('<input type="submit" value="submit">');
+                    res.write('</form>');
+                res.write('</body>');
+            res.write('</html>');
+        res.end();
+    }
+});
+
+server.listen(process.env.PORT || 8080)
+
 // http://localhost:8080/form should return the form as shown below
 //   res.writeHead(200, {
 //   	'Content-Type': 'text/html'
