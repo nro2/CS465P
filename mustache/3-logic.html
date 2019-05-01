@@ -26,7 +26,7 @@
 
 			tr.append('<td>' + {{ dblValue }}.toFixed(2) + '</td>');
 			tr.append('<td style="background-color: ' + color + ';">' + {{ dblChange }}.toFixed(2) + '</td>');
-			tr.append('<td>' + moment({{ intTime }}).format('YYYY.MM.DD - hh:ss:mm:SSS') + '</td>');
+			tr.append('<td>' + moment({{ intTime }}).format('YYYY.MM.DD - HH:mm:ss.SSS') + '</td>');
 			tr.append('<td>' + calculateVol({{ intVolume }}) + '</td>');
 			
 			table.append(tr);
