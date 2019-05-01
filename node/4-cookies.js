@@ -2,6 +2,37 @@
 
 var http = require('http'); // do not change this line
 
+var server = http.createServer(function(req, res) {
+    var cookies = parseCookies(req);
+    if (cookies['ident']) {
+        var temp = cookies['ident']                
+        res.writeHead(200, {
+            'Content-Type':'text/plain',
+            'Set-Cookie': "ident=" + req.url
+        });
+        res.end('last time you visited "' + temp + '"');
+    }
+    else {
+        res.writeHead(200, {
+            'Content-Type':'text/plain',
+            'Set-Cookie': "ident=" + req.url
+        });
+        res.end('you must be new');
+    }  
+});
+ 
+server.listen(process.env.PORT || 8080);
+
+function parseCookies (req) {
+    var list = {},
+        rc = req.headers.cookie;
+
+    rc && rc.split(';').forEach(function( cookie ) {
+        var parts = cookie.split('=');
+        list[parts.shift().trim()] = decodeURI(parts.join('='));
+    });
+    return list;
+}
 // http://localhost:8080/hello should return 'you must be new' in plain text and set an ident cookie
 
 // http://localhost:8080/test should return 'last time you visited "/hello"' in plain text

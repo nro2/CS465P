@@ -22,26 +22,37 @@ const server = http.createServer(function(req, res) {
         res.end('you have accessed \"' + decodeURIComponent(req.url.substr(6)) + '\" within test');
     }
     
-    else if (req.url.indexOf('/attributes?') === 0) {
+    else if (req.url.indexOf('/attributes') === 0) {
         var str = decodeURIComponent(req.url.substr(12))
         var parsedString = querystring.parse(str);
+   
         res.writeHead(200, {
                     'Content-Type': 'text/html'
         })
-        res.write('<!DOCTYPE html>')
-        res.write('<html>')
-        res.write('<body')
-        res.write('<table border="1">')
-
-
-
-
-        res.write('</body>')
-        res.write('</table>')
-        res.write('</body>')
-        res.write('</html>')
+        res.write('<!DOCTYPE html>');
+        res.write('<html>');
+        res.write('<body>');
+        res.write('<table border = "1">');
+        Object.keys(parsedString).forEach(function(key) {
+            res.write('<tr><td>'+ key +'</td><td>' + parsedString[key]+'</td></tr>')
+        })
         
-    res.end()
+        res.write('</table>');
+        res.write('</body>');
+        res.write('</html>');
+        res.end(); 
+
+        //res.write('<table border = \"1\">');
+        //res.write('<tbody>');
+        //res.write('<tr><td>'+ object +'</td><td>' + resolve[object]+'</td></tr>');
+        //res.write('</table>');
+        //res.end();
+    }
+    else {
+        res.writeHead(200, {
+            'Content-Type': 'text/plain'
+        });    
+        res.end('');
     }
 });
 
