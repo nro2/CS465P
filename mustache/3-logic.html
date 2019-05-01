@@ -10,6 +10,61 @@
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.0/moment.min.js"></script>
 	</head>
 	<body>
+
+		<script type='text/javascript'>
+			var table = jQuery('<table></table>').attr('border', '1');
+			var body = jQuery('<tbody></tbody>');
+			table.append(body);
+			var tr = jQuery('<tr></tr>');
+			table.append('<tr><th>name</th><th>value</th><th>change</th><th>time</th><th>volume</th></tr>');
+			{{ #objectStocks }}
+			var tr = jQuery('<tr></tr>');
+
+			tr.append('<td>' + '{{ strName }}' + '</td>');
+			
+			var color = findColor( {{ dblChange }} );
+
+			tr.append('<td>' + {{ dblValue }}.toFixed(2) + '</td>');
+			tr.append('<td style="background-color: ' + color + ';">' + {{ dblChange }}.toFixed(2) + '</td>');
+			tr.append('<td>' + moment({{ intTime }}).format('YYYY.MM.DD - hh:ss:mm:SSS') + '</td>');
+			tr.append('<td>' + calculateVol({{ intVolume }}) + '</td>');
+			
+			table.append(tr);
+
+			{{ /objectStocks }}
+			
+			table.appendTo('body')
+		
+		function findColor (change) {
+			if (change > 0){
+				var ret = 'rgb(173, 196, 162)';
+				return ret;
+			}
+			else {
+				var ret = 'rgb(188, 103, 114)';
+				return ret;
+
+			}
+		}
+		function calculateVol (vol) {
+			var num = vol.toString().length;
+			if (num > 10){
+				ret = (vol/1000000000).toFixed(1) + " B"
+				return ret;
+
+			}
+			if (num >= 7) {
+				ret = (vol/1000000).toFixed(1) + " M"
+				return ret;
+			}
+			else {
+				ret = (vol/1000).toFixed(1) + " T"
+				return ret;
+			};
+
+		}
+		</script>
+		
 		<!--
 			given a javascript object like:
 				{
