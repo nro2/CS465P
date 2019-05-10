@@ -2,6 +2,49 @@
 
 var express = require('express'); // do not change this line
 
+var server = express();
+
+server.get('/', function(req, res) {
+    res.status(200);
+    res.write('you have accessed the root');
+    res.end();
+})
+
+server.get('/test/hello', function(req,res) {
+    res.status(200);
+    res.write('you have accessed "hello" within test');
+    res.end();
+})
+
+server.get('/test/world', function(req,res) {
+    res.status(200);
+    res.write('you have accessed "world" within test');
+    res.end();
+})
+
+server.get('/attributes', function(req, res) {
+    res.writeHead(200, {
+                'Content-Type': 'text/html'
+    })
+    res.write('<!DOCTYPE html>');
+    res.write('<html>');
+    res.write('<body>');
+    res.write('<table border = "1">');
+    Object.keys(req.query).forEach(function(key) {
+        res.write('<tr><td>'+ key +'</td><td>' + req.query[key]+'</td></tr>')
+    })
+    
+    res.write('</table>');
+    res.write('</body>');
+    res.write('</html>');
+    res.end(); 
+});
+
+
+server.listen(8080);
+
+
+
 // http://localhost:8080/ should return 'you have accessed the root' in plain text
 
 // http://localhost:8080/test/hello should return 'you have accessed "hello" within test' in plain text
