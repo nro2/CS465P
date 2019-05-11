@@ -1,6 +1,8 @@
 'use strict';
 
 var express = require('express'); // do not change this line
+var cookieParser = require('cookie-parser');
+var session = require('express-session');
 
 var server = express();
 
@@ -27,18 +29,43 @@ server.get('/redirected', function(req, res) {
 server.get('/cache', function(req, res) {
     res.status(200);
     res.set({'Content-Type':'text/plain'});
+    res.set({'Cache-Control': 'max-age=86400'});
     res.write('cache this resource');
-    //res.set({'Cache-Control': 'max-age=5'});
     res.end();
 });
 
 server.get('/cookie', function(req, res) {
     res.status(200);
     res.set({'Content-Type':'text/plain'});
+    res.append('Set-Cookie', 'hello=world');
     res.write('i gave you a cookie');
-    res.cookie('hello', 'world')
     res.end();
 });
+
+server.get('/check', function(req, res) {
+    res.status(200);
+    res.set({'Content-Type':'text/plain'});
+    var cookies = parseCookies(req); 
+    if (cookies['hello']) {                 
+        res.end('yes');
+    }
+    else {
+        res.end('no');
+    }
+});
+
+function parseCookies (req) {
+    var list = {},
+        rc = req.headers.cookie;
+
+    rc && rc.split(';').forEach(function( cookie ) {
+        var parts = cookie.split('=');
+        list[parts.shift().trim()] = decodeURI(parts.join('='));
+    });
+
+    return list;
+}
+
 
 server.listen(process.env.PORT || 8080);
 // http://localhost:8080/missing should return a status code 404 with 'your princess is in another castle' in plain text
