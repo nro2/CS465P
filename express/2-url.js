@@ -6,18 +6,22 @@ var server = express();
 
 server.get('/', function(req, res) {
     res.status(200);
+    res.set({'Content-Type':'text/plain'});
     res.write('you have accessed the root');
     res.end();
 })
 
-server.get('/test/hello', function(req,res) {
+server.get('/test/:url', function(req,res) {
+    var url = req.params.url;
     res.status(200);
-    res.write('you have accessed "hello" within test');
+    res.set({'Content-Type':'text/plain'});
+    res.write('you have accessed "' + url + '" within test');
     res.end();
 })
 
 server.get('/test/world', function(req,res) {
     res.status(200);
+    res.set({'Content-Type':'text/plain'});
     res.write('you have accessed "world" within test');
     res.end();
 })
@@ -33,15 +37,22 @@ server.get('/attributes', function(req, res) {
     Object.keys(req.query).forEach(function(key) {
         res.write('<tr><td>'+ key +'</td><td>' + req.query[key]+'</td></tr>')
     })
-    
+   
     res.write('</table>');
     res.write('</body>');
     res.write('</html>');
     res.end(); 
 });
 
+server.get('/*', function(req, res){
+    res.status(200);
+    res.set({'Content-Type':'text/plain'});
+    res.write('');
+    res.end();
+})
 
-server.listen(8080);
+
+server.listen(process.env.PORT || 8080);
 
 
 
