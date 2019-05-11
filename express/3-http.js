@@ -29,15 +29,6 @@ server.get('/cache', function(req, res) {
     res.set({'Content-Type':'text/plain'});
     res.write('cache this resource');
     //res.set({'Cache-Control': 'max-age=5'});
-    app.use(serveStatic(path.join(__dirname, 'public'), {
-        maxAge: '1d',
-        cacheControl: true,
-        setHeaders: function (res, path) {
-            if (res.getHeader('Cache-Control')) {
-                res.removeHeader('Cache-Control');
-            }
-        }
-    }));
     res.end();
 });
 
