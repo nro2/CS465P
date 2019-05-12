@@ -4,6 +4,48 @@ var express = require('express'); // do not change this line
 var passport = require('passport'); // do not change this line
 var strategy = require('passport-http'); // do not change this line
 
+var server = express();
+
+const USER = 'test';
+const PASS = 'logmein';
+
+passport.use(new strategy.BasicStrategy(
+    function(username, password, done) {
+        if(username === USER && password === PASS) {
+            done(null, 'TOKEN');
+            return;
+          }
+          done(null, false);
+        }
+      ));
+
+server.get('/hello', function(req, res) {
+    res.status(200);
+    res.set({'Content-Type':'text/plain'});
+    res.write('accessible to everyone');
+    res.end();
+})
+
+server.get('/world',
+  passport.authenticate('basic', { session: false }),
+  function(req, res) {
+    res.status(200);
+    res.set({'Content-Type':'text/plain'});
+    res.write('only accessible when logged in');
+    res.end();
+});
+
+server.get('/test',
+  passport.authenticate('basic', { session: false }),
+  function(req, res) {
+    res.status(200);
+    res.set({'Content-Type':'text/plain'});
+    res.write('only accessible when logged in');
+    res.end();
+});
+ 
+server.listen(process.env.PORT || 8080);
+
 // preface: use the passport middleware and only grant the user "test" with the password "logmein" access
 
 // note: should the server restart, the browser will still technically be logged in since we are using the http basic access authentication which lets the browser submit the username and the password at each request
